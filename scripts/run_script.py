@@ -8,15 +8,24 @@ from mymodules.calculator import adding, subtract, multiply, divide
 X = 2
 
 
-def main():
-    arr1 = [22, 246, 67, 888]
+def display(numberInput):
+    """
+    Function that displays the output
+    """
+    print(f"{item} + {X} = {adding(item, X)} ")
+    print(f"{item} - {X} = {subtract(item, X)} ")
+    print(f"{item} * {X} = {multiply(item, X)} ")
+    print(f"{item} /{X} = {divide(item, X)}")
 
+
+def main():
+    """
+    Main function that runs the code.
+    """
+    arr1 = [22, 246, 67, 888]
     for item in arr1:
         print("\n=======")
-        print(f"{item} + {X} = {adding(item,X)} ")
-        print(f"{item} - {X} = {subtract(item, X)} ")
-        print(f"{item} * {X} = {multiply(item,X)} ")
-        print(f"{item} /{X} = {divide(item,X)}")
+        display(item)
 
 
 if __name__ == "__main__":
