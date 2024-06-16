@@ -4,8 +4,8 @@ This module provides basic unit testing of functions created.
 from mymodules.calculator import adding
 
 
-Number_One = 50
-Number_Two = 2
+VALUE_ONE = 50
+VALUE_TWO = 2
 
 
 # Test addition function
@@ -13,4 +13,4 @@ def test_addition():
     """
     Function to test adding() function
     """
-    assert adding(Number_One,Number_Two) == 52
+    assert adding(VALUE_ONE,VALUE_TWO) == 52
