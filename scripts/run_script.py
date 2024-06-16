@@ -1,3 +1,8 @@
+"""
+This module provides basic script run to test the created fuctions in mymodules/.
+The code is as simple as possible to achieve the objective.
+"""
+
 from mymodules.calculator import adding, subtract, multiply, divide
 
 X = 2
