@@ -19,6 +19,7 @@ pipeline {
             steps {
                 pytest
             }
+        }
 
         stage('Build') {
             steps {
@@ -30,6 +31,7 @@ pipeline {
                 echo 'Testing..'
             }
         }
+        
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
