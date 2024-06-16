@@ -3,9 +3,6 @@ This module provides basic functions to call when testing Jenkins cicd pipeline 
 The code is as simple as possible to achieve the objective.
 """
 
-Test_Number_One = 50
-Test_Number_Two = 2
-
 
 def multiply(first_number, second_number):
     """Function multiplies 2 numbers and returns the result."""

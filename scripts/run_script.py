@@ -8,14 +8,14 @@ from mymodules.calculator import adding, subtract, multiply, divide
 X = 2
 
 
-def display(numberInput):
+def display(number_input):
     """
     Function that displays the output
     """
-    print(f"{item} + {X} = {adding(item, X)} ")
-    print(f"{item} - {X} = {subtract(item, X)} ")
-    print(f"{item} * {X} = {multiply(item, X)} ")
-    print(f"{item} /{X} = {divide(item, X)}")
+    print(f"{number_input} + {X} = {adding(number_input, X)} ")
+    print(f"{number_input} - {X} = {subtract(number_input, X)} ")
+    print(f"{number_input} * {X} = {multiply(number_input, X)} ")
+    print(f"{number_input} /{X} = {divide(number_input, X)}")
 
 
 def main():
