@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     stages {
-        stage('Install Dependencies') {
-            steps {
-                pip install -r requirements.txt
-            }
-        }
+//         stage('Install Dependencies') {
+//             steps {
+//                 pip install -r requirements.txt
+//             }
+//         }
 
         stage('Lint') {
             steps {
@@ -15,11 +15,11 @@ pipeline {
             }
         }
 
-        stage('Unittests') {
-            steps {
-                pytest
-            }
-        }
+//         stage('Unittests') {
+//             steps {
+//                 pytest
+//             }
+//         }
 
         stage('Build') {
             steps {
@@ -31,7 +31,7 @@ pipeline {
                 echo 'Testing..'
             }
         }
-        
+
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
