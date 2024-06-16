@@ -29,7 +29,11 @@ pipeline {
 
         stage('Unittests') {
             steps {
+                sh '''
                 echo 'Unittests stage and steps...'
+                pytest
+                '''
+
             }
         }
 
