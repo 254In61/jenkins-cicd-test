@@ -13,7 +13,6 @@ pipeline {
 //             }
 //     }
 
-
         stage('Install Dependencies') {
             steps {
                 sh '''
@@ -22,12 +21,14 @@ pipeline {
             }
         }
 
-//         stage('Lint') {
-//             steps {
-//                 pylint mymodules/calculator.py
-//                 pylint scripts/run-script.py
-//             }
-//         }
+        stage('Lint') {
+            steps {
+                sh '''
+                pylint mymodules/calculator.py
+                pylint scripts/run-script.py
+                '''
+            }
+        }
 
         stage('Unittests') {
             steps {
