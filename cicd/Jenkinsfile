@@ -1,7 +1,16 @@
 pipeline {
     agent any
 
-    stages {
+// Stage happens automatically when Jenkinsfile is downloaded
+//     stage('Clone Repository') {
+//             steps {
+//                 // Checkout the code from the repository
+//                 git clone -b develop 'https://github.com/254In61/jenkins-cicd-test.git'
+//             }
+//     }
+
+
+//    stages {
 //         stage('Install Dependencies') {
 //             steps {
 //                 pip install -r requirements.txt
