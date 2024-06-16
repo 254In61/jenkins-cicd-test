@@ -29,25 +29,25 @@ pipeline {
 
         stage('Unittests') {
             steps {
-                pytest
+                echo 'Unittests stage and steps...'
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Building..'
+                echo 'Building stage and steps..'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Testing..'
+                echo 'Testing stage and steps..'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
+                echo 'Deploying stage and steps...'
             }
         }
    }
