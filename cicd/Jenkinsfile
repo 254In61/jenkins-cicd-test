@@ -1,7 +1,11 @@
 pipeline {
     agent any
 
-// Stage happens automatically when Jenkinsfile is downloaded
+
+
+
+    stages {
+//     Stage happens automatically when Jenkinsfile is downloaded
 //     stage('Clone Repository') {
 //             steps {
 //                 // Checkout the code from the repository
@@ -10,19 +14,18 @@ pipeline {
 //     }
 
 
-//    stages {
-//         stage('Install Dependencies') {
-//             steps {
+//      stage('Install Dependencies') {
+//          steps {
 //                 pip install -r requirements.txt
+//          }
+//      }
+
+//         stage('Lint') {
+//             steps {
+//                 pylint mymodules/calculator.py
+//                 pylint scripts/run-script.py
 //             }
 //         }
-
-        stage('Lint') {
-            steps {
-                pylint mymodules/calculator.py
-                pylint scripts/run-script.py
-            }
-        }
 
 //         stage('Unittests') {
 //             steps {
@@ -47,4 +50,30 @@ pipeline {
                 echo 'Deploying....'
             }
         }
+   }
+
+   post {
+        always {
+            // Clean up workspace
+            cleanWs()
+        }
+        success {
+            script {
+                // Custom success message
+                echo 'Pipeline succeeded!'
+            }
+        }
+        failure {
+            script {
+                // Custom failure message
+                echo 'Pipeline failed!'
+                // Send a failure notification to Slack
+                slackSend (
+                    channel: '#ci-cd',
+                    color: 'danger',
+                    message: "Build ${env.BUILD_NUMBER} failed. See details at ${env.BUILD_URL}"
+                )
+            }
+        }
+   }
 }
