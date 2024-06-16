@@ -1,10 +1,10 @@
-
-from mymodules.calculator import adding,subtract,multiply,divide
+from mymodules.calculator import adding, subtract, multiply, divide
 
 X = 2
 
+
 def main():
-    arr1 = [ 22,246,67,888]
+    arr1 = [22, 246, 67, 888]
 
     for item in arr1:
         print("\n=======")
