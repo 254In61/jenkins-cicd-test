@@ -27,11 +27,11 @@ pipeline {
 //             }
 //         }
 
-//         stage('Unittests') {
-//             steps {
-//                 pytest
-//             }
-//         }
+        stage('Unittests') {
+            steps {
+                pytest
+            }
+        }
 
         stage('Build') {
             steps {
