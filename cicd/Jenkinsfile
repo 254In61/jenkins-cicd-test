@@ -25,7 +25,7 @@ pipeline {
             steps {
                 sh '''
                 pylint mymodules/calculator.py
-                pylint scripts/run-script.py
+                pylint scripts/run_script.py
                 '''
             }
         }
