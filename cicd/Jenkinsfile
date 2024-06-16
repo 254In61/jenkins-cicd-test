@@ -2,6 +2,24 @@ pipeline {
     agent any
 
     stages {
+        stage('Install Dependencies') {
+            steps {
+                pip install -r requirements.txt
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                pylint mymodules/calculator.py
+                pylint scripts/run-script.py
+            }
+        }
+
+        stage('Unittests') {
+            steps {
+                pytest
+            }
+
         stage('Build') {
             steps {
                 echo 'Building..'
