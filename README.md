@@ -14,3 +14,12 @@ kube-node-lease   Active   17d
 kube-public       Active   17d
 kube-system       Active   17d
 
+## Step 2 : Provision storage i,e persistentVolume and persistentVolumeClaim.
+  $ kubectl apply -f manifests/jenkins-storage.yaml
+
+Confirm:
+  $ kubectl get persistentvolume
+  $ kubectl get persistentvolumeclaim
+
+## Step 3 : Deploy jenkins instance
+ 
