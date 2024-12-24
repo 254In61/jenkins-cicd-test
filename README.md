@@ -1,30 +1,16 @@
-Overview
-========
-=> Directory contains code that's for setting up Jenkins CI/CD pipeline.
-=> Once pipeline works, this code is left as it is.
+# Overview
+Deploying Jenkins instance in K8s for use in the different projects as CI/CD
 
-Theory
-======
-=> Test Driven Development : Development and testing is reversed. You write your unit tests first, and then implement
-code changes until the tests pass.
+# Deployment Steps
+## Step 1 : Create a namespace
+  $ kubectl create namespace jenkins
 
-cicd
-====
-=> Jenkins used for CICD.
-=> Pipeline name = jenkins-python-test-pipeline
-=> Pipeline script is from SCM.
-   - Jenkinsfile found in cicd/
-=> Stages:
-    1) clone repo  ** Not needed on the pipeline. Cloning down of Jenkinsfile achieves the stage.
-    2) install dependencies 
-    3) lint
-    4) unittest
-    5) integration test
-    6) build
-    7) ?? what next?
-    
+Confirm:
+ $ kubectl get namespace
+NAME              STATUS   AGE
+default           Active   17d
+jenkins           Active   11s
+kube-node-lease   Active   17d
+kube-public       Active   17d
+kube-system       Active   17d
 
-
-Design
-=======
-1. Git repo : https://github.com/254In61/jenkins-cicd-test.git

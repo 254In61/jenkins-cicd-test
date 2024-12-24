@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:                                       
+  name: jenkins-deployment
+  namespace: jenkins
+  labels:
+    app: jenkins                        
+spec:
+  replicas: 1                                          
+  selector:                          
+    matchLabels:    
+      app: jenkins      
+  strategy:         
+    type: Recreate                               # type is “Recreate,” meaning the existing Pods are terminated and new ones are created during updates.
+  template:                     
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      containers:                              
+      - name: jenkins                             
+        image: jenkins/jenkins:lts                           
+        ports:                                  # It specifies the ports to open in the container.
+        - containerPort: 8080
+        - containerPort: 50000
+          name: jenkins
+        volumeMounts:                           # This section defines where to mount volumes in the container.
+        - name: jenkins-home
+          mountPath: /var/jenkins_home
+      volumes:                                  # This section specifies the volumes to be used in the Pod.
+      - name: jenkins-persistent-storage        # The name of the volume matches the one specified in volumeMounts.
+        persistentVolumeClaim:                  # It references a PersistentVolumeClaim (PVC) named “jenkins-pvc.” The PVC provides storage resources for the Pod.
+          claimName: jenkins-pvc            
+---
+# Expose the jenkins to the outside world through a Service(network port)
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-svc
+  namespace: jenkins
+spec:
+  ports:                                       # This section defines the ports to be exposed by the Service.
+  - port: 8080
+    targetPort: 8080
+    nodePort: 32000                                 # Port 3306 is exposed, which corresponds to the port that jenkins uses for database connections.
+  selector:                                    # It selects the Pods to forward network traffic to.
+    app: jenkins                                 # The Service forwards traffic to Pods with the label “app” equal to “jenkins.” These are the Pods managed by the “jenkins” Deployment.
