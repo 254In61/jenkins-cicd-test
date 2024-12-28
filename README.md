@@ -18,12 +18,27 @@ kube-public       Active   17d
 kube-system       Active   17d
 
 ## Step 2: Create the service account using kubectl
+- Build ClusterRole with set permissions.
+- Build ServiceAccount within the devops-tools namespace
+- Bind the ClusterRole to the ServiceAccount, effectively giving the permissions to the ServiceAccount
 
-The 'jenkins-serviceAccount.yaml' creates a 'jenkins-admin' clusterRole, 'jenkins-admin' ServiceAccount and binds the 'clusterRole' to the service account.
+ $ kubectl apply -f manifests/jenkins-serviceAccount.yaml
+clusterrole.rbac.authorization.k8s.io/jenkins-cr created
+serviceaccount/jenkins-sa created
+clusterrolebinding.rbac.authorization.k8s.io/jenkins-cr-sa-binding created
 
-The 'jenkins-admin' cluster role has all the permissions to manage the cluster components. You can also restrict access by specifying individual resource actions.
+ Confirm:
 
-## Step 2 : Provision storage i,e persistentVolume and persistentVolumeClaim.
+  $ kubectl get ClusterRole      
+  $ kubectl describe ClusterRole jenkins-cr
+
+  $ kubectl get ServiceAccount -n devops-tools
+  $ kubectl describe ServiceAccount jenkins-sa -n devops-tools
+
+  $ kubectl get ClusterRoleBinding
+  $ kubectl describe ClusterRoleBinding jenkins-cr-sa-binding
+
+## Step 3 : Provision storage i,e persistentVolume and persistentVolumeClaim.
   $ kubectl apply -f manifests/jenkins-storage.yaml
 
 Confirm:
