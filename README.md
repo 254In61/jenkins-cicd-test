@@ -42,8 +42,14 @@ clusterrolebinding.rbac.authorization.k8s.io/jenkins-cr-sa-binding created
   $ kubectl apply -f manifests/jenkins-storage.yaml
 
 Confirm:
-  $ kubectl get persistentvolume
-  $ kubectl get persistentvolumeclaim
+  $ kubectl get sc
+  $ kubectl describe sc jenkins-sc
+
+  $ kubectl get pv
+  $ kubectl describe pv jenkins-pv
+
+  $ kubectl get pvc
+  $ kubectl describe sc jenkins-pvc
 
 ## Step 3 : Deploy jenkins instance
   $ kubectl apply -f manifests/jenkins-deployment.yaml

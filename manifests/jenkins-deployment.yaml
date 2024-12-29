@@ -1,46 +1,57 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata:                                       
+metadata:
   name: jenkins-deployment
-  namespace: jenkins
-  labels:
-    app: jenkins                        
+  namespace: devops-tools
 spec:
-  replicas: 1                                          
-  selector:                          
-    matchLabels:    
-      app: jenkins      
-  strategy:         
-    type: Recreate                               # type is “Recreate,” meaning the existing Pods are terminated and new ones are created during updates.
-  template:                     
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins-server
+  template:
     metadata:
       labels:
-        app: jenkins
+        app: jenkins-server
     spec:
-      containers:                              
-      - name: jenkins                             
-        image: jenkins/jenkins:lts                           
-        ports:                                  # It specifies the ports to open in the container.
-        - containerPort: 8080
-        - containerPort: 50000
-          name: jenkins
-        volumeMounts:                           # This section defines where to mount volumes in the container.
-        - name: jenkins-persistent-storage      # It specifies the volume name.
-          mountPath: /var/lib/jenkins           # path within the container where the volume will be mounted. This is typically the location where Jenkins stores its data.
-      volumes:                                  # This section specifies the volumes to be used in the Pod.
-      - name: jenkins-persistent-storage        # The name of the volume matches the one specified in volumeMounts.
-        persistentVolumeClaim:                  # It references a PersistentVolumeClaim (PVC) named “jenkins-pvc.” The PVC provides storage resources for the Pod.
-          claimName: jenkins-pvc            
----
-# Expose the jenkins to the outside world through a Service(network port)
-apiVersion: v1
-kind: Service
-metadata:
-  name: jenkins-svc
-  namespace: jenkins
-spec:
-  ports:                                       # This section defines the ports to be exposed by the Service.
-  - port: 8080
-    targetPort: 8080                            
-  selector:                                    # It selects the Pods to forward network traffic to.
-    app: jenkins                                # The Service forwards traffic to Pods with the label “app” equal to “jenkins.” These are the Pods managed by the “jenkins” Deployment.
+      securityContext: # for Jenkins pod to be able to write to the local persistent volume.
+            fsGroup: 1000
+            runAsUser: 1000
+      serviceAccountName: jenkins-admin
+      containers:
+        - name: jenkins
+          image: jenkins/jenkins:lts
+          resources:
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
+          ports:
+            - name: httpport
+              containerPort: 8080
+            - name: jnlpport
+              containerPort: 50000
+          livenessProbe:  # probe to monitor the health of the Jenkins pod.
+            httpGet:
+              path: "/login"
+              port: 8080
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: "/login"
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: jenkins-data
+              mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-data
+          persistentVolumeClaim:
+              claimName: jenkins-pvc
