@@ -1,9 +1,13 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: local-storage
-provisioner: kubernetes.io/no-provisioner
-volumeBindingMode: WaitForFirstConsumer
+  name: jenkins-sc
+provisioner: kubernetes.io/no-provisioner # this is the plugin used to provision the storage volume
+# parameters: # indicate properties of the underlying storage system
+  # type: gp3 
+# reclaimPolicy: Retain # Defaults to Delete. Can be either Delete or Retain 
+volumeBindingMode: WaitForFirstConsumer # determines how pods bind to a storage volume
+# REF : https://bluexp.netapp.com/blog/cvo-blg-kubernetes-storageclass-concepts-and-common-operations
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -12,9 +16,9 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: local-storage
+  storageClassName: jenkins-sc
   claimRef:
-    name: jenkins-pv-claim
+    name: jenkins-pv
     namespace: devops-tools
   capacity:
     storage: 10Gi
@@ -29,15 +33,15 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - worker-node01
+          - the-eagle
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jenkins-pv-claim
+  name: jenkins-pvc
   namespace: devops-tools
 spec:
-  storageClassName: local-storage
+  storageClassName: jenkins-sc
   accessModes:
     - ReadWriteOnce
   resources:
