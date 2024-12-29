@@ -48,5 +48,16 @@ Addon core/observability is already enabled
 - Use a NodePort or an ingress rule to access it from your laptop
 - Since no loadbalancer is to be deployed.
 - REF: manifests/prometheus-service.yaml
+ $ kubectl apply -f manifests/prometheus-service.yaml
 
+Confirmation: 
+ $ kubectl get svc -n observability
+ !
+ !
+ prometheus-svc           3m8s                NodePort    10.152.183.210   <none>        9090:30090/TCP
+ !
+
+2.3) Access Prometheus from your laptop:
+http://<node-ip>:30090
+In this case : http://192.168.1.100:30090/
 
