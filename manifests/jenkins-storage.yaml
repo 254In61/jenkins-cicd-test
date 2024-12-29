@@ -12,7 +12,7 @@ volumeBindingMode: WaitForFirstConsumer # determines how pods bind to a storage 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: jenkins-pv-volume
+  name: jenkins-pv
   labels:
     type: local
 spec:
