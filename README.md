@@ -51,10 +51,9 @@ Confirm:
   $ kubectl get pvc
   $ kubectl describe sc jenkins-pvc
 
-## Step 3 : Deploy jenkins instance
+## Step 4 : Deploy jenkins instance
   $ kubectl apply -f manifests/jenkins-deployment.yaml
 
 Confirm : 
-  $ kubectl get deployments -n jenkins
-  $ kubectl get pod -n jenkins
-  $ kubectl get svc -n jenkins
+  $ kubectl describe deployment jenkins-deployment -n devops-tools
+
