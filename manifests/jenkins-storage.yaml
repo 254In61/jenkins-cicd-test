@@ -1,7 +1,7 @@
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
-  name: jenkins-SC
+  name: jenkins-sc
 provisioner: kubernetes.io/no-provisioner # this is the plugin used to provision the storage volume
 # parameters: # indicate properties of the underlying storage system
   # type: gp3 
@@ -12,13 +12,13 @@ volumeBindingMode: WaitForFirstConsumer # determines how pods bind to a storage 
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: jenkins-PV
+  name: jenkins-pv
   labels:
     type: local
 spec:
-  storageClassName: jenkins-SC
+  storageClassName: jenkins-sc
   claimRef:
-    name: jenkins-PV
+    name: jenkins-pv
     namespace: devops-tools
   capacity:
     storage: 15Gi
@@ -38,10 +38,10 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jenkins-PVC
+  name: jenkins-pvc
   namespace: devops-tools
 spec:
-  storageClassName: jenkins-SC
+  storageClassName: jenkins-sc
   accessModes:
     - ReadWriteOnce
   resources:
