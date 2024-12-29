@@ -38,7 +38,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jenkins-pvc-b
+  name: jenkins-pv-claim
   namespace: devops-tools
 spec:
   storageClassName: jenkins-sc
