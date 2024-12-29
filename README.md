@@ -57,3 +57,11 @@ Confirm:
 Confirm : 
   $ kubectl describe deployment jenkins-deployment -n devops-tools
 
+## Step 5 : Route jenkins service to the outside world
+
+  $ kubectl apply -f manifests/jenkins-service.yaml
+   service/jenkins-service created
+
+Confirm :
+  $ kubectl get svc -n devops-tools
+  $ kubectl describe svc jenkins-service -n devops-tools

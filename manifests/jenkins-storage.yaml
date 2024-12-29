@@ -1,49 +1,30 @@
-kind: StorageClass
-apiVersion: storage.k8s.io/v1
-metadata:
-  name: jenkins-sc
-provisioner: kubernetes.io/no-provisioner # this is the plugin used to provision the storage volume
-# parameters: # indicate properties of the underlying storage system
-  # type: gp3 
-# reclaimPolicy: Retain # Defaults to Delete. Can be either Delete or Retain 
-volumeBindingMode: WaitForFirstConsumer # determines how pods bind to a storage volume
-# REF : https://bluexp.netapp.com/blog/cvo-blg-kubernetes-storageclass-concepts-and-common-operations
----
+# This file consists of two parts:
+# 1. The first part defines the Persistent Volume(pv). Customize the amount of allocated storage in spec.capacity.storage and In spec.hostPath specify the volume mount point.
+# 2. The second part of the file defines the Persitent Volume Claim(pvc)
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: jenkins-pv
   labels:
     type: local
-spec:
-  storageClassName: jenkins-sc
-  claimRef:
-    name: jenkins-pv
-    namespace: devops-tools
-  capacity:
-    storage: 15Gi
-  accessModes:
-    - ReadWriteOnce
-  local:
-    path: /mnt
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - the-eagle
+spec:                         
+  storageClassName: manual   
+  capacity:                  
+    storage: 30Gi             
+  accessModes:                
+    - ReadWriteOnce           # This access mode allows the volume to be mounted as read-write by a single node at a time.
+  hostPath:                  
+    path: "/mnt/data"         # The PV is created using storage located on the host machine at the path “/mnt/data.
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: jenkins-pvc
-  namespace: devops-tools
 spec:
-  storageClassName: jenkins-sc
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
+      storage: 20Gi          # Should be equal or less than the PV capacity created.
