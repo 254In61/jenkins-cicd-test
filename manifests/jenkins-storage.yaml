@@ -1,6 +1,6 @@
-# This file consists of two parts:
-# 1. The first part defines the Persistent Volume(pv). Customize the amount of allocated storage in spec.capacity.storage and In spec.hostPath specify the volume mount point.
-# 2. The second part of the file defines the Persitent Volume Claim(pvc)
+# Using a storage class, STATUS for the PVC was not moving to Bound.
+# $ kubectl get pvc -n devops-tools stuck at pending.
+
 
 apiVersion: v1
 kind: PersistentVolume
@@ -14,9 +14,9 @@ spec:
   capacity:                  
     storage: 30Gi             
   accessModes:                
-    - ReadWriteOnce           # This access mode allows the volume to be mounted as read-write by a single node at a time.
+    - ReadWriteOnce  
   hostPath:                  
-    path: "/mnt/data"         # The PV is created using storage located on the host machine at the path “/mnt/data.
+    path: "/mnt/data" 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -29,4 +29,4 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi          # Should be equal or less than the PV capacity created.
+      storage: 20Gi 
