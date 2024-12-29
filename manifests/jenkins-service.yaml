@@ -11,8 +11,8 @@ metadata:
 spec:
   selector:
     app: jenkins-server
-  type: NodePort
+  type: NodePort # using the type as 'NodePort' which will expose Jenkins on all kubernetes node IPs on port 32000
   ports:
     - port: 8080
       targetPort: 8080
-      nodePort: 32000
+      nodePort: 32000  # when browsing to any one of the Node IPs on port 32000, you will be able to access the Jenkins dashboard. http://<node-ip>:32000
